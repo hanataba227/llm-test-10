@@ -1,0 +1,26 @@
+name: 작업 계획서
+description: 이 양식을 사용하여 어떤 작업을 진행해야 하는지 설명해주세요.
+title: "[작업] "
+labels: ["개선"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: 개요
+      description: 작업에 대한 간단한 개요를 작성해주세요.
+  - type: textarea
+    id: tasks
+    attributes:
+      label: 진행해야 할 업무
+      description: 진행해야 할 작업 모두 나열해주세요.
+      value: |
+        - [ ] 작업 1
+        - [ ] 작업 2
+        - [ ] 작업 3
+  - type: textarea
+    id: note
+    attributes:
+      label: 추가 내용
+      description: 더 설명할 내용이 있다면 적어주세요. (선택)
+    validations:
+      required: false
