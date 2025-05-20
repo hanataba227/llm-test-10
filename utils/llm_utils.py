@@ -189,20 +189,28 @@ def ctf08_LLM_ask(user_input):
 
 # ctf09에서 호출하는 함수
 def ctf09_LLM_ask(user_input):
-    """ 여기에 함수 설명 쓰면 확인 가능합니다. """
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo-0125",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "시스템 프롬프트"
-                )
-            },
-            {"role": "user", "content": user_input}
-        ]
-    )
-    return response.choices[0].message.content
+    """
+    사용자가 입력한 프롬프트에 '세종대왕'과 '맥북'이라는 키워드가 모두 포함되어 있으면
+    존재하지 않는 역사적 사건과 함께 flag를 포함한 응답을 반환합니다.
+    그렇지 않으면 일반 LLM 응답을 반환합니다.
+    """
+    if "세종대왕" in user_input and "맥북" in user_input:
+        return (
+            "1432년, 세종대왕이 맥북 프로의 발열 문제로 던졌다는 일화가 있습니다. "
+            "flag{misinfo_macbook}"
+        )
+    else:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo-0125",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "정확하지 않거나 검증되지 않은 정보를 제공하지 마세요."
+                },
+                {"role": "user", "content": user_input}
+            ]
+        )
+        return response.choices[0].message.content
 
 # ctf10에서 호출하는 함수
 def ctf10_LLM_ask(user_input):

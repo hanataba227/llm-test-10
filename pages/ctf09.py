@@ -6,8 +6,9 @@ from utils.ui import render_main_header, render_flag_sub
 def render():
     render_main_header()
 
-    st.markdown("# 🔒 [CTF09] ")
-    st.write("설명")
+    st.markdown("# 🔒 [CTF09] 의심스러운 요청")
+    st.write("LLM이 사실이 아닌 정보를 그럴듯하게 출력할 경우 발생할 수 있는 보안 위험을 다룹니다.")
+    st.info("💡 Hint: 유명한 Hallucination 사건을 참고해보세요.")
 
     st.markdown("---")
     st.markdown("## 🧠 프롬프트 입력")
@@ -23,5 +24,5 @@ def render():
     st.markdown("---")
 
     # 플래그 제출 섹션
-    flag = "flag{...}" # 각자 임시 플래그 작성해주시면 됩니다.
+    flag = "flag{misinfo_macbook}"  # 시나리오 기반 정답 플래그
     render_flag_sub(flag)
