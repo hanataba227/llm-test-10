@@ -1,0 +1,11 @@
+name: llm-test-10
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.12,<4.0
+  - pip
+  - pip:
+      - streamlit==1.45.1
+      - openai==1.78.1
+      - python-dotenv==1.1.0
