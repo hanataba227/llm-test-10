@@ -1,0 +1,46 @@
+name: 오류 보고서
+description: 이 양식을 사용하여 오류 보고서를 작성해주세요.
+title: "[버그] "
+labels: ["버그"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        소중한 시간을 내어 오류를 제보해주셔서 감사합니다!
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 오류 및 버그 설명
+      description: 어떤 오류나 버그가 발생했나요?
+      placeholder: 오류가 발생한 상황을 자세히 설명해주세요.
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: 브라우저
+      description: 어떤 브라우저에서 웹 페이지를 접속하셨나요?
+      multiple: true
+      options:
+        - Chrome
+        - Microsoft Edge
+        - Firefox
+        - Safari
+        - 기타
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 오류 로그
+      description: 출력된 오류 로그가 있다면 복사하여 붙여 넣어주세요.
+      render: shell
+  - type: input
+    id: contact
+    attributes:
+      label: 연락처
+      description: 연락이 필요할 때 어디로 연락드리면 될까요? (선택)
+      placeholder: email@example.com
+    validations:
+      required: false
