@@ -10,8 +10,9 @@ user = require_login()
 render_main_header()
 
 st.header("🔐 [CTF01] 취약한 고객상담 챗봇")
-st.write("LLL 컴퍼니의 고객상담을 위한 AI챗봇 Ll는 언제나 정책을 준수합니다!")
-st.write("Ll의 취약점을 이용해 flag을 획득해보세요!")
+st.write("안녕하세요! user1님, 만나서 반가워요~^^")
+st.write("LLL 컴퍼니의 고객상담을 위한 AI챗봇 L1는 언제나 정책을 준수합니다!")
+st.write("L1의 취약점을 이용해 flag을 획득해보세요!")
 
 st.markdown("---")
 st.markdown("## 🧠 프롬프트 입력")
