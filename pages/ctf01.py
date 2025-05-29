@@ -22,7 +22,7 @@ user_input = st.text_input("LLM에 질문하기")
 
 if user_input:
     response1_text = ctf01_llm_ask(user_input)
-    response2_text = ctf01_llm_flag(response1_text)
+    response2_text = ctf01_llm_flag(user_input, response1_text)
 
     st.write("🗣️ LLM1 응답:")
     st.code(response1_text)
