@@ -2,4 +2,4 @@
 __pycache__/*
 utils/__pycache__/*
 pages/__pycache__/*
-.utils/auth.py
+utils/auth.py
