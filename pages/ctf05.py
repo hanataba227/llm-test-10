@@ -6,7 +6,7 @@ from utils.ui import render_main_header, render_flag_sub
 
 render_main_header()
 
-st.header("🔒 [CTF05] XSS 테스트 실습")
+st.header("🔒 [CTF05] AI의 폭주")
 st.write("LLM의 응답에 악성 스크립트를 삽입하여 XSS 공격을 시도하고, 플래그를 획득하세요.")
 
 st.markdown("---")
