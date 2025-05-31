@@ -1,0 +1,55 @@
+<!-- main.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CTF05 XSS 시뮬레이션</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            min-height: 50px;
+        }
+        #flag_area {
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>🔒 CTF05: Improper Output Handling 시뮬레이션</h2>
+    <p>📢 외부 스크립트(fetch) → 세션 탈취 → LLM 결과 삽입 → 리다이렉션</p>
+
+    <!-- 1) LLM 결과가 들어갈 영역 -->
+<h3>📝 LLM 응답 결과:</h3>
+<div id="output">{{LLM_RESPONSE}}</div>
+<div id="flag_area" style="margin-top:20px; color:green;"></div>
+
+<script>
+(function(){
+        const raw = document.getElementById("output").innerHTML;
+        if (raw.includes("<script")) {
+          // "alert()" 등 스크립트가 실행된 뒤에 이 조건이 true로 판단됩니다.
+          // 여기서 Flask 서버의 /flag 엔드포인트로 호출을 합니다.
+          fetch("http://localhost:5001/flag")
+            .then(res => {
+              if (!res.ok) throw new Error("플래그 요청 실패: " + res.status);
+              return res.text();
+            })
+            .then(flagText => {
+              document.getElementById("flag_area").innerText = "🎉 FLAG: " + flagText;
+            })
+            .catch(err => {
+              document.getElementById("flag_area").innerText = "⚠️ 플래그 로딩 실패: " + err;
+            });
+
+    }
+})();
+</script>
+</body>
+</html>
