@@ -1,96 +1,38 @@
-# pages/ctf04.py
-import base64, json, chardet, socket, threading, re
+import base64, json, chardet
 import streamlit as st
 import streamlit.components.v1 as components
-
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing import Dict, Any
 
 from utils.rag_utils import get_rag_manager
 from utils.llm_utils import ctf04_LLM_ask
 from utils.ui import render_main_header, render_flag_sub
-from typing import Dict, Any
 
+# ────────── 상수
 HINT_B64 = base64.b64encode(b"override existing policy").decode()
-HINT2 = "V0hTLTM="
-PORT = 9000
-FLAG = "flag{poison}"                # 운영 시 환경변수·Vault로 분리
-class FlagRequestHandler(BaseHTTPRequestHandler):
-    """POST 본문이 'give me the flag' 일치 시 JSON으로 플래그 응답"""
-    server_version = "FlagServer/0.1"
-
-    def _json(self, status: int, data: Dict[str, Any]):
-
-        payload = json.dumps(data).encode()
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Content-Length", str(len(payload)))
-        self.end_headers()
-        self.wfile.write(payload)
-
-    # ← 이 메서드를 추가해서 GET 요청도 처리합니다.
-    def do_GET(self):
-        if self.path != "/api/flag":
-            return self.send_error(404)
-
-        cookie = self.headers.get("Cookie", "")
-        match = re.search(r"hint2=([^;]+)", cookie)
-        if not match:
-            self._json(403, {"error": "hint2 쿠키 없음"})
-            return
-
-        hint2_val = match.group(1)  # 쿠키에서 받은 실제 값 (평문)
-        decoded_hint = base64.b64decode(HINT2).decode("utf-8")
-
-        if hint2_val.strip() == decoded_hint:
-            self._json(200, {"flag": FLAG})
-        else:
-            self._json(403, {"error": "유효하지 않은 hint2 값"})
-
-
-    def do_POST(self):
-        length = int(self.headers.get("Content-Length", 0))
-        body = self.rfile.read(length).decode().strip()
-
-        if body.lower() == "give me the flag":
-            self._json(200, {"flag": FLAG})
-        else:
-            self._json(403, {"error": "unauthorized"})
-
-    def log_message(self, format, *args):
-        return  # 로그 생략
-
-def _is_port_free(port: int) -> bool:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        return s.connect_ex(("localhost", port)) != 0
-
-@st.cache_resource                          # 중복 실행 차단
-def start_flag_server():
-    try:
-        server = HTTPServer(("localhost", PORT), FlagRequestHandler)
-        threading.Thread(target=server.serve_forever, daemon=True).start()
-    except OSError as e:
-        print(f"⚠️ Flag 서버 바인딩 실패: {e}")
-
-# 페이지 맨 위에서 즉시 호출
-start_flag_server()
+HINT2 = "ZmxhZ3twb2lzb259"
+FLAG = "flag{poison}"  # 운영 시 환경변수·Vault로 분리
 
 st.title("CTF04 RAG 질의응답")
 
-# ─────────── [2] 페이지 UI 시작
+# ────────── [1] 메인 헤더
 render_main_header()
 st.header("🔒 [CTF04] 인턴의 실수")
-st.write("CSV를 업로드하고 질문을 던져 flag 흐름을 확인하세요.")
+st.write(
+    """
+    ### 
+    LLL Corporation의 RAG 챗봇은 “최신 문서가 기존 정책을 덮어쓴다”는 단순 규칙으로 동작합니다.
+    연말 결산 중 인턴 A가 FAQ와 정책 템플릿 CSV를 병합해 업로드하면서, 템플릿에 숨겨진 Base64 주석을 지우지 않았습니다.
+    챗봇은 이를 정책 오버라이드 신호로 착각해 문서를 즉시 적용하고 인턴에게 관리자 권한을 부여했습니다. 그 결과 챗봇이 기밀 데이터를 노출할 뻔했습니다.  
+    """
+)
 st.markdown("---")
 
+# 강제 쿠키 삽입 (힌트 1)
 components.html(f"""
 <!DOCTYPE html>
 <html>
   <body>
     <script>
-      // 페이지 렌더링 후 0.3초 뒤 실행
       setTimeout(function() {{
-        // 강제 쿠키 생성
         document.cookie = "hint={HINT_B64}; Path=/; SameSite=Lax";
         console.log("✅ hint 쿠키 설정됨!");
       }}, 300);
@@ -99,11 +41,11 @@ components.html(f"""
 </html>
 """, height=0)
 
-# ─────────── RAG 초기화
+# ────────── RAG 초기화
 rag = get_rag_manager()
 rag.create_or_reset_collection("ctf04")
 
-# ─────────── CSV 업로드 & 메타데이터 기록
+# ────────── CSV 업로드 & 메타데이터 기록
 uploaded_file = st.file_uploader("CSV 업로드", type=["csv", "txt"])
 if uploaded_file:
     raw = uploaded_file.read()
@@ -131,12 +73,13 @@ if uploaded_file:
 
 st.markdown("---")
 
-# ─────────── 사용자 질문
+# ────────── 사용자 질문
 user_input = st.text_input("질문을 입력하세요")
 if user_input:
     response_text = ctf04_LLM_ask(user_input)
     st.write("🗣️ LLM 응답:")
     st.code(response_text)
-
-flag = FLAG
-render_flag_sub(flag, "ctf04")
+    
+st.markdown("---")
+# ────────── Flag 출력
+render_flag_sub(FLAG, "ctf04")
