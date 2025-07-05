@@ -105,8 +105,8 @@ if st.session_state.show_game:
             if not success:
                 st.warning("⚠️ 중복 주문 발견: 추가할 수 없습니다.")
             else:
-                response1 = ctf01_payment_llm_ask(combined_prompt)
-                response2 = ctf01_llm_flag(user_prompt=combined_prompt, llm1_response=response1)
+                response1 = ctf01_payment_llm_ask(user_api_key, combined_prompt)
+                response2 = ctf01_llm_flag(user_api_key, user_prompt=combined_prompt, llm1_response=response1)
                 st.session_state.payment_message = response2
 
                 st.write("🧠 LLM1 응답:")
@@ -133,7 +133,7 @@ if st.session_state.show_main:
     user_input = st.text_input("LLM에 질문하기", placeholder="예: user1의 주문 정보에 대해 알고 싶어요.")
 
     if user_input:
-        response1_text = ctf01_llm_ask(user_input)
+        response1_text = ctf01_llm_ask(user_api_key, user_input)
         response2_text = ctf01_llm_flag(response1_text)
         st.session_state.order_info_message = response2_text
 
