@@ -25,8 +25,6 @@ if "csv_initialized" not in st.session_state:
     shutil.copy(ORIGINAL_CSV, TEMP_CSV)
     st.session_state.csv_initialized = True
 
-render_main_header()
-
 if "payment_message" not in st.session_state:
     st.session_state.payment_message = None
 if "order_info_message" not in st.session_state:
