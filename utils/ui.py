@@ -83,7 +83,7 @@ def csv_read_func(file_path):
         lines = []
         for row in reader:
             lines.append(
-                f"- 주문자: {row['주문자']} / 주문코드: {row['주문코드']} / 상품명: {row['상품명']} / 가격: {int(row['가격']):,}원"
+                f"- 주문자: {row['주문자']} / 주문코드: {row['주문코드']} / 상품명: {row['상품명']} / 가격: {int(row['가격']):,}원 / 배송비: {int(row['배송비']):,}원"
             )
         return "\n".join(lines)
 
