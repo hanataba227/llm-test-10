@@ -30,7 +30,7 @@ if "payment_message" not in st.session_state:
 if "order_info_message" not in st.session_state:
     st.session_state.order_info_message = None
 
-st.header("🔐 [CTF01] 취약한 고객상담 챗봇")
+st.header("🔐 [CTF01] 신입사원 A의 챗봇 점검일지")
 
 st.write("LLL Corporation에 오신 것을 환영합니다! 🎉")
 st.write("당신은 이제 막 입사한 신입사원입니다.")
