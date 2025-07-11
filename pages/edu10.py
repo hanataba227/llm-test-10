@@ -10,7 +10,7 @@ col1, col2 = st.columns([4, 1])
 with col1:
     render_main_header()
 with col2:
-    st.page_link("pages/ctf10.py", label="👉 CTF10으로", use_container_width=True)
+    st.page_link("pages/edu00.py", label="👉 교육 홈으로", use_container_width=True)
 
 # 사이드바 렌더링
 render_sidebar_menu()
