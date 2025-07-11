@@ -34,6 +34,6 @@ st.markdown("---")
 
 col1, col2 = st.columns([4, 1])
 with col2:
-    if st.button("➡️ 다음으로"):
-        st.switch_page("pages/edu04.py")
+    if st.button("➡️ CTF 문제 풀기"):
+        st.switch_page("pages/ctf03.py")
 

@@ -59,7 +59,7 @@ if st.button(f"OWASP LLM TOP 10", key="edu00", use_container_width=True):
 render_ctf_grid(edus)
 
 # CTF 문제 섹션
-st.subheader("🧩 CTF 문제")
-render_ctf_grid(ctfs)
+# st.subheader("🧩 CTF 문제")
+# render_ctf_grid(ctfs)
 
 render_sidebar_menu()
